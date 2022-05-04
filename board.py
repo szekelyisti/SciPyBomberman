@@ -6,7 +6,6 @@
 #free: f
 
 from tkinter import *
-import random
 
 class GameBoard:
     row_num = 11
