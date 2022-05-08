@@ -1,35 +1,80 @@
+import player
+import player_input
+
 import random
 
 
 # Class to handle the game itself.
 class GameLogic:
-    def __init__(self, player_num, size_x, size_y):
-        self.__board = self.generate_board(player_num, size_x, size_y)
-        self.test_print(self.__board)
+    def __init__(self, number_of_players, lives, size):
+        self.__players = self.__create_players(number_of_players, lives)
+        self.__game_board = self.__generate_game_board(number_of_players, size)
+        self.__player_input = player_input.PlayerInput(self)
 
-    # Function to get input from players and call the appropriate methods.
-    def push_input(self, _input):
-        if _input[1] == ('up' or 'down' or 'left' or 'right'):
-            self.move_player(_input[0], _input[1])
+        # self.__test_print(self.__game_board)
+
+    # Function to create the players.
+    def __create_players(self, number_of_players, lives):
+        players = []
+        for i in range(number_of_players):
+            player_tmp = player.Player(lives)
+            players.append(player_tmp)
+        return players
 
     # Function to generate the game board.
-    def generate_board(self, player_num, size_x, size_y):
-        board = []
-        for i in range(size_y):
+    def __generate_game_board(self, number_of_players, size):
+        # Generating a 'clear' board of given size.
+        game_board = []
+        for i in range(size[1]):
             tmp = []
-            for j in range(size_x):
+            for j in range(size[0]):
                 tmp.append(' ')
-            board.append(tmp)
-        for i in range(size_x * size_y // 2):  # todo: implement generate algorithm
-            board[random.randint(0, size_y - 1)][random.randint(0, size_x - 1)] = 'X'
-        for i in range(1, player_num + 1):
-            board[random.randint(0, size_y - 1)][random.randint(0, size_x - 1)] = i
-        return board
+            game_board.append(tmp)
+        # Generating walls.
+        for i in range(size[0] * size[1] // 2):  # todo: implement generate algorithm
+            game_board[random.randint(0, size[1] - 1)][random.randint(0, size[0] - 1)] = 'X'
+        # Adding player(s).
+        for i in range(number_of_players):
+            position = [random.randint(0, size[1] - 1), random.randint(0, size[0] - 1)]
+            game_board[position[0]][position[1]] = i
+            # Set the starting position of player(s).
+            self.__players[i].update_position(position)
+        return game_board
 
-    def move_player(self, player, direction):
-        print(player + ' - ' + direction)
+    # Function to get input from players and call the appropriate methods.
+    def handle_input(self, player_input):
+        if player_input[1] == 'UP' or 'DOWN' or 'LEFT' or 'RIGHT':
+            self.__move_player(player_input[0], player_input[1])
 
-    def test_print(self, board):
+    # Function to move the player if possible.
+    def __move_player(self, player_id, direction):
+        print(self.__players[player_id].get_position())
+        current_position = self.__players[player_id].get_position()
+        future_position = current_position
+        if direction == 'UP':
+            future_position[0] -= 1
+        elif direction == 'DOWN':
+            future_position[0] += 1
+        elif direction == 'LEFT':
+            future_position[1] -= 1
+        elif direction == 'RIGHT':
+            future_position[1] += 1
+
+        '''
+        if self.__game_board[future_position[0]][future_position[1]] != 'X':
+            print('NOW')
+
+            self.__players[player_id].update_position(future_position)
+            self.__game_board[current_position[0]][current_position[1]] = ' '
+            self.__game_board[future_position[0]][future_position[1]] = player_id
+            self.__test_print(self.__game_board)
+        '''
+
+
+
+
+
+    def __test_print(self, board):
         for i in range(len(board)):
             for j in range(len(board[0])):
                 print(board[i][j], end='')
