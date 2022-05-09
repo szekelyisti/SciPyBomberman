@@ -22,6 +22,8 @@ class PlayerInput:
                     game_logic.handle_input([0, 'LEFT'])
                 elif str(event) == 'Press(key=Key.right)':
                     game_logic.handle_input([0, 'RIGHT'])
+                elif str(event) == 'Press(key=Key.enter)':
+                    game_logic.handle_input([0, 'BOMB'])
 
                 elif str(event) == "Press(key='w')":
                     game_logic.handle_input([1, 'UP'])
@@ -31,3 +33,5 @@ class PlayerInput:
                     game_logic.handle_input([1, 'LEFT'])
                 elif str(event) == "Press(key='d')":
                     game_logic.handle_input([1, 'RIGHT'])
+                elif str(event) == 'Press(key=Key.space)':
+                    game_logic.handle_input([1, 'BOMB'])

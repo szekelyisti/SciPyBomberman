@@ -1,6 +1,7 @@
 import player
 import player_input
 import text_ui
+import bomb
 
 import random
 
@@ -34,7 +35,8 @@ class GameLogic:
                 tmp.append(' ')
             game_board.append(tmp)
         # Generating walls.
-        for i in range(size[0] * size[1] // 2):  # todo: implement generate algorithm
+        for i in range(size[0] * size[1] // 4):
+            game_board[random.randint(0, size[1] - 1)][random.randint(0, size[0] - 1)] = 'W'
             game_board[random.randint(0, size[1] - 1)][random.randint(0, size[0] - 1)] = 'X'
         # Adding player(s).
         for i in range(number_of_players):
@@ -45,9 +47,15 @@ class GameLogic:
         return game_board
 
     # Function to get input from players and call the appropriate methods.
-    def handle_input(self, player_input):
-        if player_input[1] == 'UP' or 'DOWN' or 'LEFT' or 'RIGHT':
-            self.__move_player(player_input[0], player_input[1])
+    def handle_input(self, player_input_):
+        print(player_input_)
+        if player_input_[1] == 'UP' or\
+                player_input_[1] == 'DOWN' or\
+                player_input_[1] == 'LEFT' or\
+                player_input_[1] == 'RIGHT':
+            self.__move_player(player_input_[0], player_input_[1])
+        elif player_input_[1] == 'BOMB':
+            self.__place_bomb(self.__players[player_input_[0]].get_position())
 
     # Function to move the player if possible.
     def __move_player(self, player_id, direction):
@@ -65,9 +73,19 @@ class GameLogic:
 
         if 0 <= future_position[0] < len(self.__game_board[0]) and\
                 0 <= future_position[1] < len(self.__game_board[1]):
-            if self.__game_board[future_position[0]][future_position[1]] != 'X':
+
+            if self.__game_board[future_position[0]][future_position[1]] != 'W' and\
+                    self.__game_board[future_position[0]][future_position[1]] != 'X':
                 self.__players[player_id].update_position(future_position)
                 self.__game_board[current_position[0]][current_position[1]] = ' '
                 self.__game_board[future_position[0]][future_position[1]] = player_id
                 self.__text_ui.update(self.__game_board)
                 self.__text_ui.draw()
+
+    # Function to place a bomb.
+    def __place_bomb(self, position):
+        bomb_ = bomb.Bomb(self, position)
+
+    # Function to detonate a bomb.
+    def detonate(self, position):
+        print('BOOM')
