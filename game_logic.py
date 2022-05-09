@@ -1,5 +1,6 @@
 import player
 import player_input
+import text_ui
 
 import random
 
@@ -10,8 +11,10 @@ class GameLogic:
         self.__players = self.__create_players(number_of_players, lives)
         self.__game_board = self.__generate_game_board(number_of_players, size)
         self.__player_input = player_input.PlayerInput(self)
+        self.__text_ui = text_ui.TextUI()
 
-        # self.__test_print(self.__game_board)
+        self.__text_ui.update(self.__game_board)
+        self.__text_ui.draw()
 
     # Function to create the players.
     def __create_players(self, number_of_players, lives):
@@ -48,9 +51,9 @@ class GameLogic:
 
     # Function to move the player if possible.
     def __move_player(self, player_id, direction):
-        print(self.__players[player_id].get_position())
         current_position = self.__players[player_id].get_position()
-        future_position = current_position
+        future_position = current_position.copy()
+
         if direction == 'UP':
             future_position[0] -= 1
         elif direction == 'DOWN':
@@ -60,26 +63,11 @@ class GameLogic:
         elif direction == 'RIGHT':
             future_position[1] += 1
 
-        '''
-        if self.__game_board[future_position[0]][future_position[1]] != 'X':
-            print('NOW')
-
-            self.__players[player_id].update_position(future_position)
-            self.__game_board[current_position[0]][current_position[1]] = ' '
-            self.__game_board[future_position[0]][future_position[1]] = player_id
-            self.__test_print(self.__game_board)
-        '''
-
-
-
-
-
-    def __test_print(self, board):
-        for i in range(len(board)):
-            for j in range(len(board[0])):
-                print(board[i][j], end='')
-            print()
-
-
-
-
+        if 0 <= future_position[0] < len(self.__game_board[0]) and\
+                0 <= future_position[1] < len(self.__game_board[1]):
+            if self.__game_board[future_position[0]][future_position[1]] != 'X':
+                self.__players[player_id].update_position(future_position)
+                self.__game_board[current_position[0]][current_position[1]] = ' '
+                self.__game_board[future_position[0]][future_position[1]] = player_id
+                self.__text_ui.update(self.__game_board)
+                self.__text_ui.draw()
