@@ -4,8 +4,9 @@ import threading
 
 
 class AIPlayer(player.Player):
+
     def __init__(self, game_logic, position, id_):
-        super(AIPlayer, self).__init__(position)
+        self.__position = position
         self.__game_logic = game_logic
         self.__id = id_
         ai_player_input = threading.Thread(target=self.__ai_player_input)
