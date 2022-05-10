@@ -1,5 +1,3 @@
-import board
-import menu
 import tkinter as tk
 
 # wall: w

@@ -17,6 +17,18 @@ class GameLogic:
         self.__text_ui.update(self.__game_board)
         self.__text_ui.draw()
 
+    # Function to load a map.
+    def __load_map(self, filename):
+        game_board = []
+        with open(filename, 'r') as map_:
+            for line in map_.readlines():
+                tmp = []
+                for char in line:
+                    if char != '\n':
+                        tmp.append(char)
+                game_board.append(tmp)
+        return game_board
+
     # Function to create the players.
     def __create_players(self, number_of_players, lives):
         players = []
@@ -29,17 +41,9 @@ class GameLogic:
             self.__game_board[position[0]][position[1]] = i
         return players
 
-    # Function to load a map.
-    def __load_map(self, filename):
-        game_board = []
-        with open(filename, 'r') as map_:
-            for line in map_.readlines():
-                tmp = []
-                for char in line:
-                    if char != '\n':
-                        tmp.append(char)
-                game_board.append(tmp)
-        return game_board
+    # Function to get the game board.
+    def get_game_board(self):
+        return self.__game_board
 
     # Function to get input from players and call the appropriate methods.
     def handle_input(self, player_input_):
