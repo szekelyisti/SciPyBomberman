@@ -1,7 +1,6 @@
 # Class to represent a player.
 class Player:
-    def __init__(self, id_, position):
-        self.__id_ = id_
+    def __init__(self, position):
         self.__position = position
         self.__lives = 3
 

@@ -33,7 +33,6 @@ class GameLogic:
     # Function to create the players.
     def __create_players(self, number_of_live_players, number_of_ai_players):
         players = []
-        id_ = 0
         # Create live players.
         for i in range(number_of_live_players):
             while True:
@@ -41,19 +40,19 @@ class GameLogic:
                             random.randint(0, len(self.__game_board[0]) - 1)]
                 if self.__game_board[position[0]][position[1]] == 'f':
                     break
-            player_tmp = player.Player(id_, position)
+            player_tmp = player.Player(position)
             players.append(player_tmp)
             # Adding player to the board
-            self.__game_board[position[0]][position[1]] = id_
-            id_ += 1
+            self.__game_board[position[0]][position[1]] = i
         # Create AI players.
+        id_ = number_of_live_players
         for i in range(number_of_ai_players):
             while True:
                 position = [random.randint(0, len(self.__game_board) - 1),
                             random.randint(0, len(self.__game_board[0]) - 1)]
                 if self.__game_board[position[0]][position[1]] == 'f':
                     break
-            player_tmp = ai_player.AIPlayer(id_, position)
+            player_tmp = ai_player.AIPlayer(self, position, id_)
             players.append(player_tmp)
             # Adding player to the board
             self.__game_board[position[0]][position[1]] = id_
