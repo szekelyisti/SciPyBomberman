@@ -12,13 +12,12 @@ class GameLogic:
     def __init__(self, number_of_live_players, map_file):
         self.__game_board = self.__load_map(map_file)
         self.__players = self.__create_players(number_of_live_players)
+        self.game = game.Game(self)
         self.__player_input = player_input.PlayerInput(self, number_of_live_players)
         self.__text_ui = text_ui.TextUI()
 
         self.__text_ui.update(self.__game_board)
         self.__text_ui.draw()
-
-        self.game = game.Game(self)
 
     # Function to load a map.
     def __load_map(self, filename):
@@ -85,7 +84,7 @@ class GameLogic:
                 self.__game_board[future_position[0]][future_position[1]] = player_id
                 self.__text_ui.update(self.__game_board)
                 self.__text_ui.draw()
-                self.game.build_board()
+                self.game.build_board(self.__game_board)
 
     # Function to place a bomb.
     def __place_bomb(self, position):

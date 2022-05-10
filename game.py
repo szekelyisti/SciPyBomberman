@@ -27,12 +27,9 @@ class Game:
     row_num = 0
     col_num = 0
 
-    # GameLogic
-    game_logic = None
+    def __init__(self, _gl):
 
-    def __init__(self, _game_logic):
-
-        self.game_logic = _game_logic
+        self.game_logic =_gl
 
         self.window = tk.Tk()
 
@@ -60,7 +57,7 @@ class Game:
         self.ai_player_entry = tk.Entry(master=self.ai_player_frame,
                                         textvariable=tk.StringVar(master=self.ai_player_entry, value="3"))
         self.button_frame = tk.Frame(master=self.menu_frame)
-        self.play_button = tk.Button(master=self.button_frame, text='PLAY', command=self.build_board)
+        self.play_button = tk.Button(master=self.button_frame, text='PLAY', command=lambda: self.build_board(self.game_logic.get_game_board()))
         self.exit_button = tk.Button(master=self.button_frame, text='EXIT', command=self.window.destroy)
 
         self.title_label.pack()
@@ -76,9 +73,9 @@ class Game:
 
         self.menu_frame.grid(column=0, row=0)
 
-    def build_board(self):
-        self.row_num = len(self.game_logic.get_game_board())
-        self.col_num = len(self.game_logic.get_game_board()[0])
+    def build_board(self, board_array):
+        self.row_num = len(board_array)
+        self.col_num = len(board_array[0])
 
         self.board_frame = tk.Frame(master=self.window)
         self.board_canvas = tk.Canvas(self.board_frame, width=self.col_num * self.col_size,
@@ -91,11 +88,11 @@ class Game:
                 x2 = (i + 1) * self.col_size
                 y1 = j * self.row_size
                 y2 = (j + 1) * self.row_size
-                if self.game_logic.get_game_board()[j][i] == "w":
+                if board_array[j][i] == "w":
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="#000000", outline="#000000")
-                elif self.game_logic.get_game_board()[j][i] == "f":
+                elif board_array[j][i] == "f":
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="green", outline="#000000")
-                elif self.game_logic.get_game_board()[j][i] == "e":
+                elif board_array[j][i] == "e":
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="blue", outline="#000000")
                 else:
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="green", outline="#000000")
