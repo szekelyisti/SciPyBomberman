@@ -1,6 +1,5 @@
 import tkinter as tk
-import game_logic as gl
-
+import time
 
 # wall: w
 # player: number
@@ -31,7 +30,9 @@ class Game:
     # GameLogic
     game_logic = None
 
-    def __init__(self):
+    def __init__(self, _game_logic):
+
+        self.game_logic = _game_logic
 
         self.window = tk.Tk()
 
@@ -49,7 +50,6 @@ class Game:
         self.window.mainloop()
 
     def build_menu(self):
-
         self.title_label = tk.Label(master=self.menu_frame, text="BOMBERMAN", font=("Roboto", 25))
         self.real_player_frame = tk.Frame(master=self.menu_frame)
         self.real_player_label = tk.Label(master=self.real_player_frame, text='Number of real players')
@@ -77,8 +77,6 @@ class Game:
         self.menu_frame.grid(column=0, row=0)
 
     def build_board(self):
-
-        self.game_logic = gl.GameLogic(3, './maps/map1.txt')
         self.row_num = len(self.game_logic.get_game_board())
         self.col_num = len(self.game_logic.get_game_board()[0])
 
@@ -105,6 +103,3 @@ class Game:
                                                        outline="yellow")
 
         self.board_frame.grid(column=0, row=0)
-
-
-game = Game()

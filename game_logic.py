@@ -2,6 +2,7 @@ import player
 import player_input
 import text_ui
 import bomb
+import game
 
 import random
 
@@ -16,6 +17,8 @@ class GameLogic:
 
         self.__text_ui.update(self.__game_board)
         self.__text_ui.draw()
+
+        self.game = game.Game(self)
 
     # Function to load a map.
     def __load_map(self, filename):
@@ -82,6 +85,7 @@ class GameLogic:
                 self.__game_board[future_position[0]][future_position[1]] = player_id
                 self.__text_ui.update(self.__game_board)
                 self.__text_ui.draw()
+                self.game.build_board()
 
     # Function to place a bomb.
     def __place_bomb(self, position):
@@ -90,3 +94,6 @@ class GameLogic:
     # Function to detonate a bomb.
     def detonate(self, position):
         print('BOOM')
+
+
+game_logic = GameLogic(3, './maps/map1.txt')
