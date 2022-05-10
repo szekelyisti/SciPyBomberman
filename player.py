@@ -1,8 +1,8 @@
 # Class to represent a player.
 class Player:
-    def __init__(self, lives):
+    def __init__(self, position, lives):
+        self.__position = position
         self.__lives = lives
-        self.__position = None
 
     # Function to decrement lives. Returns 'True' if no lives is remaining.
     def die(self):

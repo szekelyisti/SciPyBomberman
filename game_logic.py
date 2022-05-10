@@ -8,9 +8,9 @@ import random
 
 # Class to handle the game itself.
 class GameLogic:
-    def __init__(self, number_of_players, lives, size):
+    def __init__(self, number_of_players, lives, map_file):
+        self.__game_board = self.__load_map(map_file)
         self.__players = self.__create_players(number_of_players, lives)
-        self.__game_board = self.__generate_game_board(number_of_players, size)
         self.__player_input = player_input.PlayerInput(self)
         self.__text_ui = text_ui.TextUI()
 
@@ -21,34 +21,28 @@ class GameLogic:
     def __create_players(self, number_of_players, lives):
         players = []
         for i in range(number_of_players):
-            player_tmp = player.Player(lives)
+            position = [random.randint(0, len(self.__game_board) - 1),
+                        random.randint(0, len(self.__game_board[0]) - 1)]
+            player_tmp = player.Player(position, lives)
             players.append(player_tmp)
+            # Adding player to the board
+            self.__game_board[position[0]][position[1]] = i
         return players
 
-    # Function to generate the game board.
-    def __generate_game_board(self, number_of_players, size):
-        # Generating a 'clear' board of given size.
+    # Function to load a map.
+    def __load_map(self, filename):
         game_board = []
-        for i in range(size[1]):
-            tmp = []
-            for j in range(size[0]):
-                tmp.append(' ')
-            game_board.append(tmp)
-        # Generating walls.
-        for i in range(size[0] * size[1] // 4):
-            game_board[random.randint(0, size[1] - 1)][random.randint(0, size[0] - 1)] = 'W'
-            game_board[random.randint(0, size[1] - 1)][random.randint(0, size[0] - 1)] = 'X'
-        # Adding player(s).
-        for i in range(number_of_players):
-            position = [random.randint(0, size[1] - 1), random.randint(0, size[0] - 1)]
-            game_board[position[0]][position[1]] = i
-            # Set the starting position of player(s).
-            self.__players[i].update_position(position)
+        with open(filename, 'r') as map_:
+            for line in map_.readlines():
+                tmp = []
+                for char in line:
+                    if char != '\n':
+                        tmp.append(char)
+                game_board.append(tmp)
         return game_board
 
     # Function to get input from players and call the appropriate methods.
     def handle_input(self, player_input_):
-        print(player_input_)
         if player_input_[1] == 'UP' or\
                 player_input_[1] == 'DOWN' or\
                 player_input_[1] == 'LEFT' or\
@@ -74,10 +68,10 @@ class GameLogic:
         if 0 <= future_position[0] < len(self.__game_board[0]) and\
                 0 <= future_position[1] < len(self.__game_board[1]):
 
-            if self.__game_board[future_position[0]][future_position[1]] != 'W' and\
-                    self.__game_board[future_position[0]][future_position[1]] != 'X':
+            if self.__game_board[future_position[0]][future_position[1]] != 'w' and\
+                    self.__game_board[future_position[0]][future_position[1]] != 'e':
                 self.__players[player_id].update_position(future_position)
-                self.__game_board[current_position[0]][current_position[1]] = ' '
+                self.__game_board[current_position[0]][current_position[1]] = 'f'
                 self.__game_board[future_position[0]][future_position[1]] = player_id
                 self.__text_ui.update(self.__game_board)
                 self.__text_ui.draw()
