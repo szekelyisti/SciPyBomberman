@@ -105,16 +105,16 @@ class Game:
                 if self.game_logic.get_game_board()[j][i] == "w":
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="#000000", outline="#000000")
                 elif self.game_logic.get_game_board()[j][i] == "f":
-                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="green", outline="#000000")
+                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
                 elif self.game_logic.get_game_board()[j][i] == "e":
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="blue", outline="#000000")
                 elif self.game_logic.get_game_board()[j][i] == "b":
-                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="green", outline="#000000")
+                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
                     self.board_canvas.create_rectangle(x1 + 15, y1 + 15, x2 - 15, y2 - 15, fill="black",
                                                        outline="black")
                 else:
 
-                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="green", outline="#000000")
+                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
                     self.board_canvas.create_rectangle(x1 + 15, y1 + 15, x2 - 15, y2 - 15, fill=self.player_colors[int(self.game_logic.get_game_board()[j][i])],
                                                        outline=self.player_colors[int(self.game_logic.get_game_board()[j][i])])
 

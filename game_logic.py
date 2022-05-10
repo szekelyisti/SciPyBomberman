@@ -1,6 +1,7 @@
 import player
 import ai_player
 import player_input
+import ai_input
 import text_ui
 import bomb
 
@@ -10,9 +11,13 @@ import random
 # Class to handle the game itself.
 class GameLogic:
     def __init__(self, number_of_live_players, number_of_ai_players, map_file):
+        self.__live_players_num = number_of_live_players
+        self.__ai_players_num = number_of_ai_players
+
         self.__game_board = self.__load_map(map_file)
         self.__players = self.__create_players(number_of_live_players, number_of_ai_players)
-        self.__player_input = player_input.PlayerInput(self, number_of_live_players)
+        self.__live_player_input = player_input.PlayerInput(self, number_of_live_players)
+        self.__ai_player_input = ai_input.AIInput(self, number_of_ai_players)
         self.__text_ui = text_ui.TextUI()
 
         self.__text_ui.update(self.__game_board)
@@ -40,7 +45,7 @@ class GameLogic:
                             random.randint(0, len(self.__game_board[0]) - 1)]
                 if self.__game_board[position[0]][position[1]] == 'f':
                     break
-            player_tmp = player.Player(position)
+            player_tmp = player.Player(position, True)
             players.append(player_tmp)
             # Adding player to the board
             self.__game_board[position[0]][position[1]] = i
@@ -52,12 +57,21 @@ class GameLogic:
                             random.randint(0, len(self.__game_board[0]) - 1)]
                 if self.__game_board[position[0]][position[1]] == 'f':
                     break
-            player_tmp = ai_player.AIPlayer(self, position, id_)
+            player_tmp = player.Player(position, False)
             players.append(player_tmp)
             # Adding player to the board
             self.__game_board[position[0]][position[1]] = id_
             id_ += 1
         return players
+
+    def get_players(self):
+        return self.__players
+
+    def get_live_players_num(self):
+        return self.__live_players_num
+
+    def get_ai_players_num(self):
+        return self.__ai_players_num
 
     # Function to get the game board.
     def get_game_board(self):
