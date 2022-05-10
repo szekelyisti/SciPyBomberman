@@ -8,9 +8,9 @@ import random
 
 # Class to handle the game itself.
 class GameLogic:
-    def __init__(self, number_of_players, lives, map_file):
+    def __init__(self, number_of_players, map_file):
         self.__game_board = self.__load_map(map_file)
-        self.__players = self.__create_players(number_of_players, lives)
+        self.__players = self.__create_players(number_of_players)
         self.__player_input = player_input.PlayerInput(self)
         self.__text_ui = text_ui.TextUI()
 
@@ -30,12 +30,12 @@ class GameLogic:
         return game_board
 
     # Function to create the players.
-    def __create_players(self, number_of_players, lives):
+    def __create_players(self, number_of_players):
         players = []
         for i in range(number_of_players):
             position = [random.randint(0, len(self.__game_board) - 1),
                         random.randint(0, len(self.__game_board[0]) - 1)]
-            player_tmp = player.Player(position, lives)
+            player_tmp = player.Player(position)
             players.append(player_tmp)
             # Adding player to the board
             self.__game_board[position[0]][position[1]] = i
