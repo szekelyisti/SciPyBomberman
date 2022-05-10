@@ -33,9 +33,11 @@ class GameLogic:
     def __create_players(self, number_of_live_players):
         players = []
         for i in range(number_of_live_players):
-
-            position = [random.randint(0, len(self.__game_board) - 1),
-                        random.randint(0, len(self.__game_board[0]) - 1)]
+            while True:
+                position = [random.randint(0, len(self.__game_board) - 1),
+                            random.randint(0, len(self.__game_board[0]) - 1)]
+                if self.__game_board[position[0]][position[1]] == 'f':
+                    break
             player_tmp = player.Player(position)
             players.append(player_tmp)
             # Adding player to the board
