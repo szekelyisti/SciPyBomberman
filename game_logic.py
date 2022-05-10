@@ -92,6 +92,22 @@ class GameLogic:
 
     # Function to detonate a bomb.
     def detonate(self, position):
+        indexes = [[position[0],     position[1]],
+                   [position[0] - 1, position[1]],
+                   [position[0] - 2, position[1]],
+                   [position[0],     position[1] + 1],
+                   [position[0],     position[1] + 2],
+                   [position[0] + 1, position[1]],
+                   [position[0] + 2, position[1]],
+                   [position[0],     position[1] - 1],
+                   [position[0],     position[1] - 2]]
+
+        for index in indexes:
+            print(self.__game_board[index[0]][index[1]])
+
+        self.__text_ui.update(self.__game_board)
+        self.__text_ui.draw()
+
         print('BOOM')
 
 
