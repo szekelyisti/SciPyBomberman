@@ -29,7 +29,7 @@ class Game:
     # GameLogic
     game_logic = None
 
-    player_colors = ["#e6194b", "#f58231", "#ffe119", "#bfef45", "#3cb44b", "#42d4f4", "#4363d8", "#911eb4", "#f032e6", "#a9a9a9"]
+    player_colors = ["#e6194b", "#f58231", "#ffe119", "#808000", "#3cb44b", "#42d4f4", "#4363d8", "#911eb4", "#f032e6", "#a9a9a9"]
 
     def __init__(self):
 
