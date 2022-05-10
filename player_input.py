@@ -14,18 +14,19 @@ class PlayerInput:
             with keyboard.Events() as events:
                 event = events.get()
 
-                if str(event) == 'Press(key=Key.up)':
-                    game_logic.handle_input([0, 'UP'])
-                elif str(event) == 'Press(key=Key.down)':
-                    game_logic.handle_input([0, 'DOWN'])
-                elif str(event) == 'Press(key=Key.left)':
-                    game_logic.handle_input([0, 'LEFT'])
-                elif str(event) == 'Press(key=Key.right)':
-                    game_logic.handle_input([0, 'RIGHT'])
-                elif str(event) == 'Press(key=Key.enter)':
-                    game_logic.handle_input([0, 'BOMB'])
+                if number_of_live_players >= 1:
+                    if str(event) == 'Press(key=Key.up)':
+                        game_logic.handle_input([0, 'UP'])
+                    elif str(event) == 'Press(key=Key.down)':
+                        game_logic.handle_input([0, 'DOWN'])
+                    elif str(event) == 'Press(key=Key.left)':
+                        game_logic.handle_input([0, 'LEFT'])
+                    elif str(event) == 'Press(key=Key.right)':
+                        game_logic.handle_input([0, 'RIGHT'])
+                    elif str(event) == 'Press(key=Key.enter)':
+                        game_logic.handle_input([0, 'BOMB'])
 
-                if number_of_live_players == 2:
+                if number_of_live_players >= 2:
                     if str(event) == "Press(key='w')":
                         game_logic.handle_input([1, 'UP'])
                     elif str(event) == "Press(key='s')":
