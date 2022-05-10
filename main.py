@@ -1,4 +1,6 @@
 import tkinter as tk
+import game_logic as gl
+
 
 # wall: w
 # player: number
@@ -8,9 +10,7 @@ import tkinter as tk
 # free: f
 
 
-
 class Game:
-
     # menu variables
     title_label = None
     real_player_frame = None
@@ -25,22 +25,24 @@ class Game:
 
     # board variables
     board_canvas = None
+    row_num = 0
+    col_num = 0
 
-    def __init__(self, _map):
+    # GameLogic
+    game_logic = None
+
+    def __init__(self):
 
         self.window = tk.Tk()
 
-        with open(_map) as f:
-            self.board_array = f.read().splitlines()
-
-        self.row_num = len(self.board_array)
-        self.col_num = len(self.board_array[0])
         self.row_size = 50
         self.col_size = 81
         self.window.title('BOMBERMAN')
         # self.window.minsize(self.col_num*self.col_size+10, self.row_num*self.row_size+10)
-        self.menu_frame = tk.Frame(master=self.window, width=self.col_num*self.col_size+10, height=self.row_num*self.row_size+10)
-        self.board_frame = tk.Frame(master=self.window, width=self.col_num*self.col_size+10, height=self.row_num*self.row_size+10)
+        self.menu_frame = tk.Frame(master=self.window, width=self.col_num * self.col_size + 10,
+                                   height=self.row_num * self.row_size + 10)
+        self.board_frame = tk.Frame(master=self.window, width=self.col_num * self.col_size + 10,
+                                    height=self.row_num * self.row_size + 10)
 
         self.build_menu()
 
@@ -74,12 +76,15 @@ class Game:
 
         self.menu_frame.grid(column=0, row=0)
 
-
-
     def build_board(self):
+
+        self.game_logic = gl.GameLogic(3, './maps/map1.txt')
+        self.row_num = len(self.game_logic.get_game_board())
+        self.col_num = len(self.game_logic.get_game_board()[0])
+
         self.board_frame = tk.Frame(master=self.window)
         self.board_canvas = tk.Canvas(self.board_frame, width=self.col_num * self.col_size,
-                                height=self.row_num * self.row_size)
+                                      height=self.row_num * self.row_size)
         self.board_canvas.pack()
 
         for i in range(self.col_num):
@@ -88,15 +93,18 @@ class Game:
                 x2 = (i + 1) * self.col_size
                 y1 = j * self.row_size
                 y2 = (j + 1) * self.row_size
-                if self.board_array[j][i] == "w":
-                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="red", outline="#000000")
-                elif self.board_array[j][i] == "f":
+                if self.game_logic.get_game_board()[j][i] == "w":
+                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="#000000", outline="#000000")
+                elif self.game_logic.get_game_board()[j][i] == "f":
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="green", outline="#000000")
-                elif self.board_array[j][i] == "e":
+                elif self.game_logic.get_game_board()[j][i] == "e":
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="blue", outline="#000000")
+                else:
+                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="green", outline="#000000")
+                    self.board_canvas.create_rectangle(x1 + 15, y1 + 15, x2 - 15, y2 - 15, fill="yellow",
+                                                       outline="yellow")
 
         self.board_frame.grid(column=0, row=0)
 
 
-
-game = Game('./maps/map1.txt')
+game = Game()
