@@ -1,4 +1,5 @@
 import player
+import ai_player
 import player_input
 import text_ui
 import bomb
@@ -8,10 +9,9 @@ import random
 
 # Class to handle the game itself.
 class GameLogic:
-    def __init__(self, number_of_live_players, map_file):
+    def __init__(self, number_of_live_players, number_of_ai_players, map_file):
         self.__game_board = self.__load_map(map_file)
-        self.__players = self.__create_players(number_of_live_players)
-        self.__ai_players = self.__create_players(number_of_live_players)
+        self.__players = self.__create_players(number_of_live_players, number_of_ai_players)
         self.__player_input = player_input.PlayerInput(self, number_of_live_players)
         self.__text_ui = text_ui.TextUI()
 
@@ -31,18 +31,33 @@ class GameLogic:
         return game_board
 
     # Function to create the players.
-    def __create_players(self, number_of_live_players):
+    def __create_players(self, number_of_live_players, number_of_ai_players):
         players = []
+        id_ = 0
+        # Create live players.
         for i in range(number_of_live_players):
             while True:
                 position = [random.randint(0, len(self.__game_board) - 1),
                             random.randint(0, len(self.__game_board[0]) - 1)]
                 if self.__game_board[position[0]][position[1]] == 'f':
                     break
-            player_tmp = player.Player(position)
+            player_tmp = player.Player(id_, position)
             players.append(player_tmp)
             # Adding player to the board
-            self.__game_board[position[0]][position[1]] = i
+            self.__game_board[position[0]][position[1]] = id_
+            id_ += 1
+        # Create AI players.
+        for i in range(number_of_ai_players):
+            while True:
+                position = [random.randint(0, len(self.__game_board) - 1),
+                            random.randint(0, len(self.__game_board[0]) - 1)]
+                if self.__game_board[position[0]][position[1]] == 'f':
+                    break
+            player_tmp = ai_player.AIPlayer(id_, position)
+            players.append(player_tmp)
+            # Adding player to the board
+            self.__game_board[position[0]][position[1]] = id_
+            id_ += 1
         return players
 
     # Function to get the game board.
@@ -90,6 +105,13 @@ class GameLogic:
 
     # Function to detonate a bomb.
     def detonate(self, position):
+        #if self.__game_board[position[0]][position[1]] ==
+        print('test')
+        print(self.__game_board[position[0]][position[1]])
+
+
+
+
         indexes = [[position[0],     position[1]],
                    [position[0] - 1, position[1]],
                    [position[0] - 2, position[1]],
@@ -100,8 +122,7 @@ class GameLogic:
                    [position[0],     position[1] - 1],
                    [position[0],     position[1] - 2]]
 
-        for index in indexes:
-            print(self.__game_board[index[0]][index[1]])
+
 
         self.__text_ui.update(self.__game_board)
         self.__text_ui.draw()
