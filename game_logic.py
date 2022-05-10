@@ -11,6 +11,7 @@ class GameLogic:
     def __init__(self, number_of_live_players, map_file):
         self.__game_board = self.__load_map(map_file)
         self.__players = self.__create_players(number_of_live_players)
+        self.__ai_players = self.__create_players(number_of_live_players)
         self.__player_input = player_input.PlayerInput(self, number_of_live_players)
         self.__text_ui = text_ui.TextUI()
 
