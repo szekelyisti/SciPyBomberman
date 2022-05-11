@@ -2,6 +2,7 @@ import threading
 import random
 import time
 
+
 class AIInput:
     def __init__(self, game_logic, number_of_ai_players):
 
@@ -12,14 +13,38 @@ class AIInput:
         while True:
             ai_players = game_logic.get_players()[-number_of_ai_players:]
             for player in ai_players:
-                if not ((game_logic.get_game_board()[game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] - 1][game_logic.get_players()[game_logic.get_players().index(player)].get_position()[1] - 1] == "f" or
-                         game_logic.get_game_board()[game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] - 1][game_logic.get_players()[game_logic.get_players().index(player)].get_position()[1] - 1] == "w") and
-                        (game_logic.get_game_board()[game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] - 1][game_logic.get_players()[game_logic.get_players().index(player)].get_position()[1] + 1] == "f" or
-                         game_logic.get_game_board()[game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] - 1][game_logic.get_players()[game_logic.get_players().index(player)].get_position()[1] + 1] == "w") and
-                        (game_logic.get_game_board()[game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] + 1][game_logic.get_players()[game_logic.get_players().index(player)].get_position()[1] - 1] == "f" or
-                         game_logic.get_game_board()[game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] + 1][game_logic.get_players()[game_logic.get_players().index(player)].get_position()[1] - 1] == "w") and
-                        (game_logic.get_game_board()[game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] + 1][game_logic.get_players()[game_logic.get_players().index(player)].get_position()[1] + 1] == "f" or
-                         game_logic.get_game_board()[game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] + 1][game_logic.get_players()[game_logic.get_players().index(player)].get_position()[1] + 1] == "w")):
+                if not ((game_logic.get_game_board()[
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] - 1][
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[
+                                 1] - 1] == "f" or
+                         game_logic.get_game_board()[
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] - 1][
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[
+                                 1] - 1] == "w") and
+                        (game_logic.get_game_board()[
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] - 1][
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[
+                                 1] + 1] == "f" or
+                         game_logic.get_game_board()[
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] - 1][
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[
+                                 1] + 1] == "w") and
+                        (game_logic.get_game_board()[
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] + 1][
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[
+                                 1] - 1] == "f" or
+                         game_logic.get_game_board()[
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] + 1][
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[
+                                 1] - 1] == "w") and
+                        (game_logic.get_game_board()[
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] + 1][
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[
+                                 1] + 1] == "f" or
+                         game_logic.get_game_board()[
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[0] + 1][
+                             game_logic.get_players()[game_logic.get_players().index(player)].get_position()[
+                                 1] + 1] == "w")):
                     game_logic.handle_input([game_logic.get_players().index(player), 'BOMB'])
                     print("wseeeeeeeeeeeeee")
 
@@ -36,4 +61,3 @@ class AIInput:
                         game_logic.handle_input([game_logic.get_players().index(player), 'RIGHT'])
                     print("gogogogogogogogogogogogo")
                 time.sleep(1)
-
