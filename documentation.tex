@@ -1,0 +1,136 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{subfig}
+\linespread{1.5}
+\usepackage{biblatex}
+
+\title{\textbf{Bomberman}\\ Documentation\\ Scientific Python - Project work}
+\author{László Levente POZSONYI (VKVCZO) \\ István SZÉKELY (GY2W5Z)}
+\date{11 May 2022}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+In this summary and documentation we briefly go through the most important properties and features of our project work.
+\end{abstract}
+
+\section{The goal of our project}
+    \paragraph{}
+    The goal of our project was to implement a game mimicking the famous game called Bomberman. During the development, we practiced the basics of Python and studied more advanced modules as well. Furthermore, we got more familiar with git and working in a team overall.
+
+\section{Implemented features}
+    \paragraph{}
+    Here is a list of features we implemented:
+    \begin{itemize}
+        \item GUI for starting screen and the game itself
+        \item Selection of number of real and AI players
+        \item Loading maps
+        \item Movement of players
+        \item Placing bombs
+        \item Explosion of bombs
+        \item Damage of bombs
+        \item Death of players
+        \item Handling end of the game
+        \item AI for controlling players
+    \end{itemize}
+
+\section{The structure of the project}
+    \paragraph{}
+    The design of the project follows the object oriented principles.
+
+    \paragraph{}
+    The project consists of the following folder and files:
+    \begin{itemize}
+        \item \verb|maps|: folder to store the maps
+        \item \verb|ai_input.py|: code to implement the AI players
+        \item \verb|bomb.py|: code to implement the bomb
+        \item \verb|game.py|: code to implement the GUI
+        \item \verb|game_logic.py|: code to implement the logic and rules of the game
+        \item \verb|initialize.py|: code to start the game if GUI is not used (for debugging and developing purposes)
+        \item \verb|player.py|: code to implement a player, whether it is real or AI
+        \item \verb|player_input.py|: code to implement the control of a real player
+        \item \verb|text_ui.py|: code to implement command line interface (for debugging and developing  purposes)
+    \end{itemize}
+
+    \subsection{ai\_input.py}
+        \paragraph{}
+        In this file the AIInput class is implemented, which is responsible for handling the AI players. In that class the following functions are implemented:
+        \begin{itemize}
+            \item \verb|__handle_input|: This function controls the AI players' movement. In each iteration it collects the allowed movements for all AI players and selects one from them randomly, with weighted chances.
+        \end{itemize}
+
+    \subsection{bomb.py}
+        \paragraph{}
+        In this file the Bomb class is implemented, which is responsible for handling the bomb. In that class the following functions are implemented:
+        \begin{itemize}
+            \item \verb|__timer|: This function is a timer for the detonation, running on its own thread.
+        \end{itemize}
+
+    \subsection{game.py}
+        \paragraph{}
+        In this file the Game class is implemented, which is responsible for the GUI part of the game with the help of \verb|tkinter|. In this class the following functions are implemented:
+        \begin{itemize}
+            \item \verb|__refresh|: This function updates the game board by creating the cells of the board and also at the end of the game this function updates the GUI to inform the players about the results.
+            \item \verb|start|: This function starts the actual game, when the play button is pressed.
+            \item \verb|build_menu|: This function draws the main menu of the game. Here the number of real players and the number of AI players can be set and after that the game can be started by pressing the \verb|PLAY| button, or the program can be closed by pressing the \verb|EXIT| button.
+            \item \verb|build_board|: This function draws the game board. The cells' colors are referring to the following types:
+                \begin{itemize}
+                    \item black: impenetrable wall
+                    \item blue: penetrable wall
+                    \item grey: free cell
+                    \item white: actual explosion
+                \end{itemize}
+            The smaller colored rectangles referring to the players and the smaller black rectangles are referring to the bombs.
+        \end{itemize}
+
+    \subsection{game\_logic.py}
+        \paragraph{}
+        In this file the GameLogic class is implemented, which is responsible for handling the logic of the game and enforcing its rules. In that class the following functions are implemented:
+        \begin{itemize}
+            \item \verb|__load_map|: This function loads a map.
+            \item \verb|__create_players|: This function creates the real and AI players.
+            \item \verb|__text_ui|: This function handles the command line interface, running on its own thread.
+            \item \verb|handle_input|: This function handles the inputs coming from real and AI players.
+            \item \verb|__move_player|: This function moves the players on the game board.
+            \item \verb|__place_bomb|: This function places a bomb on the game board.
+            \item \verb|detonate|: This function detonates a bomb in a given position.
+            \item \verb|__detonate_check|: This function is a helper of \verb|detonate|, helping handling the detonation.
+            \item \verb|__remove_explosion|: This function removes the beams of an exploded bomb.
+        \end{itemize}
+
+    \subsection{initialize.py}
+        \paragraph{}
+        This file is only a short script, starting the game if CLI is used.
+
+    \subsection{player.py}
+        \paragraph{}
+        In this file the Player class is implemented, which is responsible for the representation of the players. Each player has a limited amount of lives and an alive property. In that class the following functions are implemented:
+        \begin{itemize}
+            \item \verb|hp_loss|: This function manages the player's lives. In case of damage it decreases the number of lives and if the life counter hits zero the player is dead and out of the game.
+        \end{itemize}
+
+    \subsection{player\_input.py}
+        \paragraph{}
+        In this file the PlayerInput class is implemented, which is responsible for handling the real players. The game can handle 2 real players at a time. In that class the following functions are implemented:
+        \begin{itemize}
+            \item \verb|__handle_input|: In this function in each iteration the program reads the input from the keyboard and according to that read data moves the appropriate player on the board.
+        \end{itemize}
+
+    \subsection{text\_ui.py}
+        \paragraph{}
+        In this file the TextUI class is implemented, which is responsible for writing to the CLI. In that class the following functions are implemented:
+        \begin{itemize}
+            \item \verb|update|: This function updates the game board to be drawn.
+            \item \verb|draw|: This function writes the game board to the CLI.
+        \end{itemize}
+
+\section{Conclusion}
+
+    \paragraph{}
+    In our opinion, the project was successful, we learned plenty of new things, which is the main objective of the project work. We were able to implement most of the features, though sometimes small hiccups and bugs can occur here and there.
+
+\end{document}
