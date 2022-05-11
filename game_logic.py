@@ -113,26 +113,35 @@ class GameLogic:
             self.__game_board[current_position[0]][current_position[1]] = 'f'
             if self.__game_board[future_position[0]][future_position[1]] == 'f':
                 self.__game_board[future_position[0]][future_position[1]] = player_id
+                self.__players[player_id].update_position(future_position)
             elif self.__game_board[future_position[0]][future_position[1]] == 'b':
                 self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'b'
+                self.__players[player_id].update_position(future_position)
             elif self.__game_board[future_position[0]][future_position[1]] == 'q':
                 self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'q'
+                self.__players[player_id].update_position(future_position)
         elif str(self.__game_board[current_position[0]][current_position[1]])[0] == 'b':
             self.__game_board[current_position[0]][current_position[1]] = 'b'
             if self.__game_board[future_position[0]][future_position[1]] == 'f':
                 self.__game_board[future_position[0]][future_position[1]] = player_id
+                self.__players[player_id].update_position(future_position)
             elif self.__game_board[future_position[0]][future_position[1]] == 'b':
                 self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'b'
+                self.__players[player_id].update_position(future_position)
             elif self.__game_board[future_position[0]][future_position[1]] == 'q':
                 self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'q'
+                self.__players[player_id].update_position(future_position)
         elif str(self.__game_board[current_position[0]][current_position[1]])[0] == 'q':
             self.__game_board[current_position[0]][current_position[1]] = 'q'
             if self.__game_board[future_position[0]][future_position[1]] == 'f':
                 self.__game_board[future_position[0]][future_position[1]] = player_id
+                self.__players[player_id].update_position(future_position)
             elif self.__game_board[future_position[0]][future_position[1]] == 'b':
                 self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'b'
+                self.__players[player_id].update_position(future_position)
             elif self.__game_board[future_position[0]][future_position[1]] == 'q':
                 self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'q'
+                self.__players[player_id].update_position(future_position)
 
     # Function to place a bomb.
     def __place_bomb(self, position):
