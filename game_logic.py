@@ -158,8 +158,6 @@ class GameLogic:
 
     # Function to detonate a bomb.
     def detonate(self, position):
-        print('boom')
-
         if self.__game_board[position[0]][position[1]] == 'b':
             self.__game_board[position[0]][position[1]] = 'q'
         else:
@@ -170,6 +168,8 @@ class GameLogic:
         self.__detonate_check([position[0],     position[1] + 1], [position[0],     position[1] + 2])
         self.__detonate_check([position[0] + 1, position[1]],     [position[0] + 2, position[1]])
         self.__detonate_check([position[0],     position[1] - 1], [position[0],     position[1] - 2])
+
+        threading.Thread(target=self.__remove_explosion(position)).start()
 
     # Function to help deciding on detonation points.
     def __detonate_check(self, position_1, position_2):
@@ -222,20 +222,20 @@ class GameLogic:
             elif self.__game_board[position_2[0]][position_2[1]] == 'q':
                 self.__game_board[position_2[0]][position_2[1]] = 'q'
 
-
-'''for index in indexes:
-            if self.__game_board[index[0]][index[1]] == 'b' or \
-                    self.__game_board[index[0]][index[1]] == 'q' or \
-                    self.__game_board[index[0]][index[1]] == 'f' or \
-                    self.__game_board[index[0]][index[1]] == 'e':
-                self.__game_board[index[0]][index[1]] = 'q'
-
-
-        if self.__game_board[position[0]][position[1]] == 'e':
-            self.__game_board[position[0]][position[1]] = 'q'
-        elif self.__game_board[position[0]][position[1]] == 'f':
-            self.__game_board[position[0]][position[1]] = 'q'
-            if self.__game_board[position[0]][position[2]] == 'f':
-                self.__game_board[position[0]][position[2]] = 'q'
-            elif self.__game_board[position[0]][position[2]].isnumeric():
-                self.__players[int(self.__game_board[position[0]][position[2]])].die()'''
+    def __remove_explosion(self, position):
+        time.sleep(0.1)
+        indexes = [[position[0],     position[1]],
+                   [position[0] - 1, position[1]],
+                   [position[0] - 2, position[1]],
+                   [position[0],     position[1] + 1],
+                   [position[0],     position[1] + 2],
+                   [position[0] + 1, position[1]],
+                   [position[0] + 2, position[1]],
+                   [position[0],     position[1] - 1],
+                   [position[0],     position[1] - 2]]
+        for index in indexes:
+            if 'q' in str(self.__game_board[index[0]][index[1]]):
+                if self.__game_board[index[0]][index[1]] == 'q':
+                    self.__game_board[index[0]][index[1]] = 'f'
+                else:
+                    self.__game_board[index[0]][index[1]].replace('q', '')
