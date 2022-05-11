@@ -3,10 +3,9 @@ class Player:
 
     __previous_step = None
 
-    def __init__(self, position, real):
+    def __init__(self, position):
         self.__position = position
         self.__lives = 3
-        self.__real = real
         self.__alive = True
 
     # Function to get the position of the player.

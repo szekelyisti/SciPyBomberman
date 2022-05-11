@@ -46,7 +46,7 @@ class GameLogic:
                             random.randint(0, len(self.__game_board[0]) - 1)]
                 if self.__game_board[position[0]][position[1]] == 'f':
                     break
-            player_tmp = player.Player(position, True)
+            player_tmp = player.Player(position)
             players.append(player_tmp)
             # Adding player to the board
             self.__game_board[position[0]][position[1]] = i
@@ -58,7 +58,7 @@ class GameLogic:
                             random.randint(0, len(self.__game_board[0]) - 1)]
                 if self.__game_board[position[0]][position[1]] == 'f':
                     break
-            player_tmp = player.Player(position, False)
+            player_tmp = player.Player(position)
             players.append(player_tmp)
             # Adding player to the board
             self.__game_board[position[0]][position[1]] = id_
