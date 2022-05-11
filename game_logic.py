@@ -21,6 +21,8 @@ class GameLogic:
         self.__live_player_input = player_input.PlayerInput(self, number_of_live_players)
         self.__ai_player_input = ai_input.AIInput(self, number_of_ai_players)
 
+        self.__bombs = []
+
         threading.Thread(target=self.__text_ui).start()
 
     # Function to load a map.
@@ -110,10 +112,19 @@ class GameLogic:
             future_position[1] += 1
 
         if self.__game_board[future_position[0]][future_position[1]] != 'w' and\
-                self.__game_board[future_position[0]][future_position[1]] != 'e':
+                self.__game_board[future_position[0]][future_position[1]] != 'e' and\
+                not str(self.__game_board[future_position[0]][future_position[1]])[0].isdigit():
             self.__players[player_id].update_position(future_position)
-            self.__game_board[current_position[0]][current_position[1]] = 'f'
-            self.__game_board[future_position[0]][future_position[1]] = player_id
+
+            if str(self.__game_board[current_position[0]][current_position[1]]).isdigit():
+                self.__game_board[current_position[0]][current_position[1]] = 'f'
+            else:
+                self.__game_board[current_position[0]][current_position[1]] = 'b'
+
+            if self.__game_board[future_position[0]][future_position[1]] == 'b':
+                self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'b'
+            else:
+                self.__game_board[future_position[0]][future_position[1]] = player_id
 
     # Function to place a bomb.
     def __place_bomb(self, position):
@@ -121,10 +132,12 @@ class GameLogic:
                 != 'b':
             bomb_ = bomb.Bomb(self, position)
             self.__game_board[position[0]][position[1]] = str(self.__game_board[position[0]][position[1]]) + 'b'
+            self.__bombs.append(position)
+        print(self.__bombs)
 
     # Function to detonate a bomb.
     def detonate(self, position):
-        if self.__game_board[position[0]][position[1]] == 'e':
+        '''if self.__game_board[position[0]][position[1]] == 'e':
             self.__game_board[position[0]][position[1]] = 'q'
         elif self.__game_board[position[0]][position[1]] == 'f':
             self.__game_board[position[0]][position[1]] = 'q'
@@ -151,7 +164,7 @@ class GameLogic:
                    [position[0] + 1, position[1]],
                    [position[0] + 2, position[1]],
                    [position[0],     position[1] - 1],
-                   [position[0],     position[1] - 2]]
+                   [position[0],     position[1] - 2]]'''
 
 
 
