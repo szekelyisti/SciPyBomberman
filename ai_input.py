@@ -1,11 +1,11 @@
 import threading
 import random
 import time
-import sys
 
 
 class AIInput:
-    __over = False
+
+    over = False
 
     def __init__(self, game_logic, number_of_ai_players):
         if number_of_ai_players != 0:
@@ -140,10 +140,3 @@ class AIInput:
                     player.set_previous_step(free_neighbors[step])
 
             time.sleep(1)
-            if self.__over:
-                break
-
-    def game_over_fun(self):
-        self.__over = True
-        self.__input_handler.join()
-        print("ai stopped")

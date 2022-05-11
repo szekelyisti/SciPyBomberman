@@ -5,14 +5,11 @@ from pynput import keyboard
 # Class to handle keyboard inputs from a player.
 class PlayerInput:
 
-    __over = False
-
     def __init__(self, game_logic, number_of_live_players):
         self.__input_handler = threading.Thread(target=self.__handle_input, args=(game_logic, number_of_live_players))
         self.__input_handler.start()
 
     # Function to handle keyboard inputs from a player.
-    #test
     def __handle_input(self, game_logic, number_of_live_players):
         while True:
             with keyboard.Events() as events:
@@ -43,10 +40,3 @@ class PlayerInput:
                             game_logic.handle_input([1, 'RIGHT'])
                         elif str(event) == 'Press(key=Key.space)':
                             game_logic.handle_input([1, 'BOMB'])
-            if self.__over:
-                break
-
-    def game_over_fun(self):
-        self.__over = True
-        self.__input_handler.join()
-        print("real stopped")

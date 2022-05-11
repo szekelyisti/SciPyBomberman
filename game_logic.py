@@ -12,6 +12,7 @@ import time
 
 # Class to handle the game itself.
 class GameLogic:
+
     def __init__(self, number_of_live_players, number_of_ai_players, map_file):
         self.__live_players_num = number_of_live_players
         self.__ai_players_num = number_of_ai_players
@@ -65,7 +66,7 @@ class GameLogic:
         return players
 
     def __text_ui(self):
-        while(True):
+        while (True):
             text_ui_ = text_ui.TextUI()
             text_ui_.update(self.__game_board)
             text_ui_.draw()
@@ -151,7 +152,7 @@ class GameLogic:
 
     # Function to place a bomb.
     def __place_bomb(self, position):
-        if str(self.__game_board[position[0]][position[1]])[-1]\
+        if str(self.__game_board[position[0]][position[1]])[-1] \
                 != 'b':
             bomb_ = bomb.Bomb(self, position)
             self.__game_board[position[0]][position[1]] = str(self.__game_board[position[0]][position[1]]) + 'b'
@@ -164,10 +165,10 @@ class GameLogic:
             self.__game_board[position[0]][position[1]] = str(self.__game_board[position[0]][position[1]])[0] + 'q'
             self.__players[int(str(self.__game_board[position[0]][position[1]])[0])].hp_loss()
 
-        self.__detonate_check([position[0] - 1, position[1]],     [position[0] - 2, position[1]])
-        self.__detonate_check([position[0],     position[1] + 1], [position[0],     position[1] + 2])
-        self.__detonate_check([position[0] + 1, position[1]],     [position[0] + 2, position[1]])
-        self.__detonate_check([position[0],     position[1] - 1], [position[0],     position[1] - 2])
+        self.__detonate_check([position[0] - 1, position[1]], [position[0] - 2, position[1]])
+        self.__detonate_check([position[0], position[1] + 1], [position[0], position[1] + 2])
+        self.__detonate_check([position[0] + 1, position[1]], [position[0] + 2, position[1]])
+        self.__detonate_check([position[0], position[1] - 1], [position[0], position[1] - 2])
 
         threading.Thread(target=self.__remove_explosion(position)).start()
 
@@ -229,23 +230,18 @@ class GameLogic:
 
     def __remove_explosion(self, position):
         time.sleep(0.1)
-        indexes = [[position[0],     position[1]],
+        indexes = [[position[0], position[1]],
                    [position[0] - 1, position[1]],
                    [position[0] - 2, position[1]],
-                   [position[0],     position[1] + 1],
-                   [position[0],     position[1] + 2],
+                   [position[0], position[1] + 1],
+                   [position[0], position[1] + 2],
                    [position[0] + 1, position[1]],
                    [position[0] + 2, position[1]],
-                   [position[0],     position[1] - 1],
-                   [position[0],     position[1] - 2]]
+                   [position[0], position[1] - 1],
+                   [position[0], position[1] - 2]]
         for index in indexes:
             if 'q' in str(self.__game_board[index[0]][index[1]]):
                 if self.__game_board[index[0]][index[1]] == 'q':
                     self.__game_board[index[0]][index[1]] = 'f'
                 else:
                     self.__game_board[index[0]][index[1]].replace('q', '')
-
-    # def __del__(self):
-    #    self.__live_player_input.game_over_fun()
-    #    if self.__ai_players_num != 0:
-    #        self.__ai_player_input.game_over_fun()

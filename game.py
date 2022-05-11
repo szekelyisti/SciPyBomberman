@@ -2,7 +2,6 @@ import tkinter as tk
 import game_logic as gl
 import threading
 import time
-import sys
 
 
 # wall: w
@@ -33,7 +32,7 @@ class Game:
     game_over_label = None
     game_winner_label = None
     game_over_exit_button = None
-    game_over= False
+    game_over = False
     # GameLogic
     game_logic = None
     player_colors = ["#e6194b", "#f58231", "#ffe119", "#808000", "#3cb44b", "#42d4f4", "#4363d8", "#911eb4", "#f032e6",
@@ -69,11 +68,13 @@ class Game:
                     alive_players.append(player)
             if len(alive_players) == 1:
                 self.game_over = True
-                self.game_over_frame = tk.Frame(master=self.window, width=self.col_num * self.col_size + 10, height=self.row_num * self.row_size + 10)
-                self.game_over_label = tk.Label(master=self.game_over_frame, text= "GAME OVER", font=("Roboto", 72))
+                self.game_over_frame = tk.Frame(master=self.window, width=self.col_num * self.col_size + 10,
+                                                height=self.row_num * self.row_size + 10)
+                self.game_over_label = tk.Label(master=self.game_over_frame, text="GAME OVER", font=("Roboto", 72))
                 winner = "The winner is player number " + str(self.game_logic.get_players().index(alive_players[0]) + 1)
-                self.game_winner_label = tk.Label(master=self.game_over_frame, text = winner, font=("Roboto", 25))
-                self.game_over_exit_button = tk.Button(master=self.game_over_frame, text='EXIT', command=self.game_over_fun)
+                self.game_winner_label = tk.Label(master=self.game_over_frame, text=winner, font=("Roboto", 25))
+                self.game_over_exit_button = tk.Button(master=self.game_over_frame, text='EXIT',
+                                                       command=self.window.destroy)
 
                 self.game_over_label.grid(column=0, row=0)
                 self.game_winner_label.grid(column=0, row=1)
@@ -156,10 +157,6 @@ class Game:
                                                            int(self.game_logic.get_game_board()[j][i])])
 
         self.board_canvas.grid(column=0, row=0)
-
-    def game_over_fun(self):
-        self.window.destroy()
-        # self.game_logic.__del__()
 
 
 game = Game()
