@@ -112,9 +112,11 @@ class Game:
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
                     self.board_canvas.create_rectangle(x1 + 15, y1 + 15, x2 - 15, y2 - 15, fill="black",
                                                        outline="black")
-                elif "b" in self.game_logic.get_game_board()[j][i]:
-                    self.board_canvas.create_rectangle(x1 + 15, y1 + 5, x2 - 15, y2 - 5, fill="black", outline="black")
-                    self.board_canvas.create_rectangle(x1 + 15, y1 )
+                elif "b" in str(self.game_logic.get_game_board()[j][i]):
+                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
+                    self.board_canvas.create_rectangle(x1 + 15, y1 + 3, x2 - 15, y2 - 27, fill="black", outline="black")
+                    self.board_canvas.create_rectangle(x1 + 15, y1 + 28, x2 - 15, y2 - 2, fill=self.player_colors[int(self.game_logic.get_game_board()[j][i][0])],
+                                                       outline=self.player_colors[int(self.game_logic.get_game_board()[j][i][0])])
                 else:
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
                     self.board_canvas.create_rectangle(x1 + 15, y1 + 15, x2 - 15, y2 - 15, fill=self.player_colors[int(self.game_logic.get_game_board()[j][i])],
