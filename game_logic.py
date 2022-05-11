@@ -21,9 +21,7 @@ class GameLogic:
         self.__live_player_input = player_input.PlayerInput(self, number_of_live_players)
         self.__ai_player_input = ai_input.AIInput(self, number_of_ai_players)
 
-        self.__bombs = []
-
-        threading.Thread(target=self.__text_ui).start()
+        # threading.Thread(target=self.__text_ui).start()
 
     # Function to load a map.
     def __load_map(self, filename):
@@ -133,7 +131,6 @@ class GameLogic:
             bomb_ = bomb.Bomb(self, position)
             self.__game_board[position[0]][position[1]] = str(self.__game_board[position[0]][position[1]]) + 'b'
             self.__bombs.append(position)
-        print(self.__bombs)
 
     # Function to detonate a bomb.
     def detonate(self, position):
