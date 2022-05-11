@@ -23,7 +23,7 @@ class GameLogic:
 
         self.__bombs = []
 
-        threading.Thread(target=self.__text_ui).start()
+        # threading.Thread(target=self.__text_ui).start()
 
     # Function to load a map.
     def __load_map(self, filename):

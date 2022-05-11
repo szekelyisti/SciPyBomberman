@@ -10,6 +10,7 @@ import time
 # bomb: b
 # power-up: u
 # free: f
+# radius: q
 class Game:
     # menu variables
     title_label = None
@@ -28,6 +29,7 @@ class Game:
     col_num = 0
     # GameLogic
     game_logic = None
+    __previous_board = None
 
     player_colors = ["#e6194b", "#f58231", "#ffe119", "#808000", "#3cb44b", "#42d4f4", "#4363d8", "#911eb4", "#f032e6", "#a9a9a9"]
 
@@ -39,6 +41,7 @@ class Game:
         self.col_size = 81
         self.window.title('BOMBERMAN')
         # self.window.minsize(self.col_num*self.col_size+10, self.row_num*self.row_size+10)
+
         self.menu_frame = tk.Frame(master=self.window, width=self.col_num * self.col_size + 10,
                                    height=self.row_num * self.row_size + 10)
         self.board_frame = tk.Frame(master=self.window, width=self.col_num * self.col_size + 10,
@@ -58,6 +61,7 @@ class Game:
 
     def start(self):
         self.game_logic = gl.GameLogic(int(self.real_player_entry.get()), int(self.ai_player_entry.get()), './maps/map1.txt')
+        self.__previous_board = self.game_logic.get_game_board()
         self.__refresher.start()
 
 
@@ -95,6 +99,7 @@ class Game:
         self.board_frame = tk.Frame(master=self.window)
         self.board_canvas = tk.Canvas(self.board_frame, width=self.col_num * self.col_size,
                                       height=self.row_num * self.row_size)
+
         self.board_canvas.pack()
         for i in range(self.col_num):
             for j in range(self.row_num):
@@ -112,6 +117,10 @@ class Game:
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
                     self.board_canvas.create_rectangle(x1 + 15, y1 + 15, x2 - 15, y2 - 15, fill="black",
                                                        outline="black")
+                elif self.game_logic.get_game_board()[j][i] == "q":
+                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
+                    self.board_canvas.create_rectangle(x1, y1 + 15, x2, y2 - 15, fill="white",
+                                                       outline="white")
                 elif "b" in str(self.game_logic.get_game_board()[j][i]):
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
                     self.board_canvas.create_rectangle(x1 + 15, y1 + 3, x2 - 15, y2 - 27, fill="black", outline="black")
@@ -123,6 +132,5 @@ class Game:
                                                        outline=self.player_colors[int(self.game_logic.get_game_board()[j][i])])
 
         self.board_frame.grid(column=0, row=0)
-
 
 game = Game()
