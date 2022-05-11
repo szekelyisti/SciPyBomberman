@@ -1,5 +1,4 @@
 import player
-import ai_player
 import player_input
 import ai_input
 import text_ui

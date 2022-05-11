@@ -5,9 +5,11 @@ import time
 
 class AIInput:
     def __init__(self, game_logic, number_of_ai_players):
-
-        self.__input_handler = threading.Thread(target=self.__handle_input, args=(game_logic, number_of_ai_players))
-        self.__input_handler.start()
+        if number_of_ai_players != 0:
+            self.__input_handler = threading.Thread(target=self.__handle_input, args=(game_logic, number_of_ai_players))
+            self.__input_handler.start()
+        else:
+            pass
 
     def __handle_input(self, game_logic, number_of_ai_players):
         while True:
@@ -46,7 +48,6 @@ class AIInput:
                              game_logic.get_players()[game_logic.get_players().index(player)].get_position()[
                                  1] + 1] == "w")):
                     game_logic.handle_input([game_logic.get_players().index(player), 'BOMB'])
-                    print("wseeeeeeeeeeeeee")
 
                 else:
                     num = random.randint(1, 4)
@@ -59,5 +60,4 @@ class AIInput:
                         game_logic.handle_input([game_logic.get_players().index(player), 'LEFT'])
                     else:
                         game_logic.handle_input([game_logic.get_players().index(player), 'RIGHT'])
-                    print("gogogogogogogogogogogogo")
                 time.sleep(1)
