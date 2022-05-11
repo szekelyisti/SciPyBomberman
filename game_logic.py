@@ -244,3 +244,8 @@ class GameLogic:
                     self.__game_board[index[0]][index[1]] = 'f'
                 else:
                     self.__game_board[index[0]][index[1]].replace('q', '')
+
+    # def __del__(self):
+    #    self.__live_player_input.game_over_fun()
+    #    if self.__ai_players_num != 0:
+    #        self.__ai_player_input.game_over_fun()

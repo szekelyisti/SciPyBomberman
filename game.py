@@ -2,6 +2,7 @@ import tkinter as tk
 import game_logic as gl
 import threading
 import time
+import sys
 
 
 # wall: w
@@ -27,9 +28,14 @@ class Game:
     board_canvas = None
     row_num = 0
     col_num = 0
+    # game over variables
+    game_over_frame = None
+    game_over_label = None
+    game_winner_label = None
+    game_over_exit_button = None
+    game_over= False
     # GameLogic
     game_logic = None
-
     player_colors = ["#e6194b", "#f58231", "#ffe119", "#808000", "#3cb44b", "#42d4f4", "#4363d8", "#911eb4", "#f032e6",
                      "#a9a9a9"]
 
@@ -55,14 +61,26 @@ class Game:
 
     def __refresh(self):
         while True:
-            self.build_board()
-            time.sleep(0.1)
+            if not self.game_over:
+                self.build_board()
             alive_players = []
             for player in self.game_logic.get_players():
                 if player.is_alive():
                     alive_players.append(player)
-            # if len(alive_players) == 1:
+            if len(alive_players) == 1:
+                self.game_over = True
+                self.game_over_frame = tk.Frame(master=self.window, width=self.col_num * self.col_size + 10, height=self.row_num * self.row_size + 10)
+                self.game_over_label = tk.Label(master=self.game_over_frame, text= "GAME OVER", font=("Roboto", 72))
+                winner = "The winner is player number " + str(self.game_logic.get_players().index(alive_players[0]) + 1)
+                self.game_winner_label = tk.Label(master=self.game_over_frame, text = winner, font=("Roboto", 25))
+                self.game_over_exit_button = tk.Button(master=self.game_over_frame, text='EXIT', command=self.game_over_fun)
 
+                self.game_over_label.grid(column=0, row=0)
+                self.game_winner_label.grid(column=0, row=1)
+                self.game_over_exit_button.grid(column=0, row=2)
+                self.game_over_frame.grid(column=0, row=0)
+                break
+            time.sleep(0.1)
 
     def start(self):
         self.game_logic = gl.GameLogic(int(self.real_player_entry.get()), int(self.ai_player_entry.get()),
@@ -118,6 +136,8 @@ class Game:
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
                     self.board_canvas.create_rectangle(x1 + 15, y1 + 15, x2 - 15, y2 - 15, fill="black",
                                                        outline="black")
+                elif self.game_logic.get_game_board()[j][i] == "bq":
+                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="white", outline="white")
                 elif "q" in str(self.game_logic.get_game_board()[j][i]):
                     # self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="white", outline="white")
@@ -136,6 +156,10 @@ class Game:
                                                            int(self.game_logic.get_game_board()[j][i])])
 
         self.board_canvas.grid(column=0, row=0)
+
+    def game_over_fun(self):
+        self.window.destroy()
+        # self.game_logic.__del__()
 
 
 game = Game()
