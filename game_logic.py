@@ -21,7 +21,7 @@ class GameLogic:
         self.__live_player_input = player_input.PlayerInput(self, number_of_live_players)
         self.__ai_player_input = ai_input.AIInput(self, number_of_ai_players)
 
-        threading.Thread(target=self.__text_ui).start()
+        # threading.Thread(target=self.__text_ui).start()
 
     # Function to load a map.
     def __load_map(self, filename):
@@ -166,35 +166,69 @@ class GameLogic:
             self.__game_board[position[0]][position[1]] = str(self.__game_board[position[0]][position[1]])[0] + 'q'
             # todo: call die
 
+        self.__detonate_check([position[0] - 1, position[1]],     [position[0] - 2, position[1]])
+        self.__detonate_check([position[0],     position[1] + 1], [position[0],     position[1] + 2])
+        self.__detonate_check([position[0] + 1, position[1]],     [position[0] + 2, position[1]])
+        self.__detonate_check([position[0],     position[1] - 1], [position[0],     position[1] - 2])
+
+    # Function to help deciding on detonation points.
+    def __detonate_check(self, position_1, position_2):
+        if self.__game_board[position_1[0]][position_1[1]] == 'w':
+            pass
+        elif self.__game_board[position_1[0]][position_1[1]] == 'e':
+            self.__game_board[position_1[0]][position_1[1]] = 'q'
+        elif self.__game_board[position_1[0]][position_1[1]] == 'f':
+            self.__game_board[position_1[0]][position_1[1]] = 'q'
+            if self.__game_board[position_2[0]][position_2[1]] == 'f':
+                self.__game_board[position_2[0]][position_2[1]] = 'q'
+            elif str(self.__game_board[position_2[0]][position_2[1]]).isdigit():
+                self.__game_board[position_2[0]][position_2[1]] = str(
+                    self.__game_board[position_2[0]][position_2[1]]) + 'q'
+            elif self.__game_board[position_2[0]][position_2[1]] == 'b':
+                self.__game_board[position_2[0]][position_2[1]] = 'bq'
+            elif self.__game_board[position_2[0]][position_2[1]] == 'q':
+                self.__game_board[position_2[0]][position_2[1]] = 'q'
+        elif str(self.__game_board[position_1[0]][position_1[1]]).isdigit():
+            self.__game_board[position_1[0]][position_1[1]] = str(self.__game_board[position_1[0]][position_1[1]]) + 'q'
+            if self.__game_board[position_2[0]][position_2[1]] == 'f':
+                self.__game_board[position_2[0]][position_2[1]] = 'q'
+            elif str(self.__game_board[position_2[0]][position_2[1]]).isdigit():
+                self.__game_board[position_2[0]][position_2[1]] = str(
+                    self.__game_board[position_2[0]][position_2[1]]) + 'q'
+            elif self.__game_board[position_2[0]][position_2[1]] == 'b':
+                self.__game_board[position_2[0]][position_2[1]] = 'bq'
+            elif self.__game_board[position_2[0]][position_2[1]] == 'q':
+                self.__game_board[position_2[0]][position_2[1]] = 'q'
+        elif self.__game_board[position_1[0]][position_1[1]] == 'b':
+            self.__game_board[position_1[0]][position_1[1]] = 'bq'
+            if self.__game_board[position_2[0]][position_2[1]] == 'f':
+                self.__game_board[position_2[0]][position_2[1]] = 'q'
+            elif str(self.__game_board[position_2[0]][position_2[1]]).isdigit():
+                self.__game_board[position_2[0]][position_2[1]] = str(
+                    self.__game_board[position_2[0]][position_2[1]]) + 'q'
+            elif self.__game_board[position_2[0]][position_2[1]] == 'b':
+                self.__game_board[position_2[0]][position_2[1]] = 'bq'
+            elif self.__game_board[position_2[0]][position_2[1]] == 'q':
+                self.__game_board[position_2[0]][position_2[1]] = 'q'
+        elif self.__game_board[position_1[0]][position_1[1]] == 'q':
+            self.__game_board[position_1[0]][position_1[1]] = 'q'
+            if self.__game_board[position_2[0]][position_2[1]] == 'f':
+                self.__game_board[position_2[0]][position_2[1]] = 'q'
+            elif str(self.__game_board[position_2[0]][position_2[1]]).isdigit():
+                self.__game_board[position_2[0]][position_2[1]] = str(
+                    self.__game_board[position_2[0]][position_2[1]]) + 'q'
+            elif self.__game_board[position_2[0]][position_2[1]] == 'b':
+                self.__game_board[position_2[0]][position_2[1]] = 'bq'
+            elif self.__game_board[position_2[0]][position_2[1]] == 'q':
+                self.__game_board[position_2[0]][position_2[1]] = 'q'
 
 
-
-
-
-
-
-
-
-        '''indexes = [[position[0],     position[1]],
-                   [position[0] - 1, position[1]],
-                   [position[0] - 2, position[1]],
-                   [position[0],     position[1] + 1],
-                   [position[0],     position[1] + 2],
-                   [position[0] + 1, position[1]],
-                   [position[0] + 2, position[1]],
-                   [position[0],     position[1] - 1],
-                   [position[0],     position[1] - 2]]
-
-        for index in indexes:
+'''for index in indexes:
             if self.__game_board[index[0]][index[1]] == 'b' or \
                     self.__game_board[index[0]][index[1]] == 'q' or \
                     self.__game_board[index[0]][index[1]] == 'f' or \
                     self.__game_board[index[0]][index[1]] == 'e':
                 self.__game_board[index[0]][index[1]] = 'q'
-
-
-
-
 
 
         if self.__game_board[position[0]][position[1]] == 'e':
@@ -204,11 +238,4 @@ class GameLogic:
             if self.__game_board[position[0]][position[2]] == 'f':
                 self.__game_board[position[0]][position[2]] = 'q'
             elif self.__game_board[position[0]][position[2]].isnumeric():
-                self.__players[int(self.__game_board[position[0]][position[2]])].die()
-
-
-
-
-
-        print('test')
-        print(self.__game_board[position[0]][position[1]])'''
+                self.__players[int(self.__game_board[position[0]][position[2]])].die()'''

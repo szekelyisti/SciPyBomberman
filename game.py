@@ -60,7 +60,7 @@ class Game:
 
     def start(self):
         self.game_logic = gl.GameLogic(int(self.real_player_entry.get()), int(self.ai_player_entry.get()),
-                                       './maps/map_test.txt')
+                                       './maps/map1.txt')
         self.__refresher.start()
 
     def build_menu(self):
