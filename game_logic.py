@@ -87,9 +87,9 @@ class GameLogic:
 
     # Function to get input from players and call the appropriate methods.
     def handle_input(self, player_input_):
-        if player_input_[1] == 'UP' or\
-                player_input_[1] == 'DOWN' or\
-                player_input_[1] == 'LEFT' or\
+        if player_input_[1] == 'UP' or \
+                player_input_[1] == 'DOWN' or \
+                player_input_[1] == 'LEFT' or \
                 player_input_[1] == 'RIGHT':
             self.__move_player(player_input_[0], player_input_[1])
         elif player_input_[1] == 'BOMB':
@@ -109,20 +109,30 @@ class GameLogic:
         elif direction == 'RIGHT':
             future_position[1] += 1
 
-        if self.__game_board[future_position[0]][future_position[1]] != 'w' and\
-                self.__game_board[future_position[0]][future_position[1]] != 'e' and\
-                not str(self.__game_board[future_position[0]][future_position[1]])[0].isdigit():
-            self.__players[player_id].update_position(future_position)
-
-            if str(self.__game_board[current_position[0]][current_position[1]]).isdigit():
-                self.__game_board[current_position[0]][current_position[1]] = 'f'
-            else:
-                self.__game_board[current_position[0]][current_position[1]] = 'b'
-
-            if self.__game_board[future_position[0]][future_position[1]] == 'b':
-                self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'b'
-            else:
+        if str(self.__game_board[current_position[0]][current_position[1]]).isdigit():
+            self.__game_board[current_position[0]][current_position[1]] = 'f'
+            if self.__game_board[future_position[0]][future_position[1]] == 'f':
                 self.__game_board[future_position[0]][future_position[1]] = player_id
+            elif self.__game_board[future_position[0]][future_position[1]] == 'b':
+                self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'b'
+            elif self.__game_board[future_position[0]][future_position[1]] == 'q':
+                self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'q'
+        elif str(self.__game_board[current_position[0]][current_position[1]])[0] == 'b':
+            self.__game_board[current_position[0]][current_position[1]] = 'b'
+            if self.__game_board[future_position[0]][future_position[1]] == 'f':
+                self.__game_board[future_position[0]][future_position[1]] = player_id
+            elif self.__game_board[future_position[0]][future_position[1]] == 'b':
+                self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'b'
+            elif self.__game_board[future_position[0]][future_position[1]] == 'q':
+                self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'q'
+        elif str(self.__game_board[current_position[0]][current_position[1]])[0] == 'q':
+            self.__game_board[current_position[0]][current_position[1]] = 'q'
+            if self.__game_board[future_position[0]][future_position[1]] == 'f':
+                self.__game_board[future_position[0]][future_position[1]] = player_id
+            elif self.__game_board[future_position[0]][future_position[1]] == 'b':
+                self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'b'
+            elif self.__game_board[future_position[0]][future_position[1]] == 'q':
+                self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'q'
 
     # Function to place a bomb.
     def __place_bomb(self, position):
@@ -134,7 +144,23 @@ class GameLogic:
     # Function to detonate a bomb.
     def detonate(self, position):
         print('boom')
-        indexes = [[position[0],     position[1]],
+
+        if self.__game_board[position[0]][position[1]] == 'b':
+            self.__game_board[position[0]][position[1]] = 'q'
+        else:
+            self.__game_board[position[0]][position[1]] = str(self.__game_board[position[0]][position[1]])[0] + 'q'
+            # todo: call die
+
+
+
+
+
+
+
+
+
+
+        '''indexes = [[position[0],     position[1]],
                    [position[0] - 1, position[1]],
                    [position[0] - 2, position[1]],
                    [position[0],     position[1] + 1],
@@ -143,14 +169,20 @@ class GameLogic:
                    [position[0] + 2, position[1]],
                    [position[0],     position[1] - 1],
                    [position[0],     position[1] - 2]]
+
         for index in indexes:
-            self.__game_board[index[0]][index[1]] = 'q'
+            if self.__game_board[index[0]][index[1]] == 'b' or \
+                    self.__game_board[index[0]][index[1]] == 'q' or \
+                    self.__game_board[index[0]][index[1]] == 'f' or \
+                    self.__game_board[index[0]][index[1]] == 'e':
+                self.__game_board[index[0]][index[1]] = 'q'
 
 
 
 
 
-        '''if self.__game_board[position[0]][position[1]] == 'e':
+
+        if self.__game_board[position[0]][position[1]] == 'e':
             self.__game_board[position[0]][position[1]] = 'q'
         elif self.__game_board[position[0]][position[1]] == 'f':
             self.__game_board[position[0]][position[1]] = 'q'
