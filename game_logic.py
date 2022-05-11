@@ -1,3 +1,5 @@
+import threading
+
 import player
 import player_input
 import ai_input
@@ -5,6 +7,7 @@ import text_ui
 import bomb
 
 import random
+import time
 
 
 # Class to handle the game itself.
@@ -17,10 +20,8 @@ class GameLogic:
         self.__players = self.__create_players(number_of_live_players, number_of_ai_players)
         self.__live_player_input = player_input.PlayerInput(self, number_of_live_players)
         self.__ai_player_input = ai_input.AIInput(self, number_of_ai_players)
-        self.__text_ui = text_ui.TextUI()
 
-        self.__text_ui.update(self.__game_board)
-        self.__text_ui.draw()
+        threading.Thread(target=self.__text_ui).start()
 
     # Function to load a map.
     def __load_map(self, filename):
@@ -63,7 +64,15 @@ class GameLogic:
             id_ += 1
         return players
 
+    def __text_ui(self):
+        while(True):
+            text_ui_ = text_ui.TextUI()
+            text_ui_.update(self.__game_board)
+            text_ui_.draw()
+            time.sleep(1)
+
     def get_players(self):
+
         return self.__players
 
     def get_live_players_num(self):
@@ -100,24 +109,33 @@ class GameLogic:
         elif direction == 'RIGHT':
             future_position[1] += 1
 
-        if 0 <= future_position[0] < len(self.__game_board[0]) and\
-                0 <= future_position[1] < len(self.__game_board[1]):
-
-            if self.__game_board[future_position[0]][future_position[1]] != 'w' and\
-                    self.__game_board[future_position[0]][future_position[1]] != 'e':
-                self.__players[player_id].update_position(future_position)
-                self.__game_board[current_position[0]][current_position[1]] = 'f'
-                self.__game_board[future_position[0]][future_position[1]] = player_id
-                self.__text_ui.update(self.__game_board)
-                self.__text_ui.draw()
+        if self.__game_board[future_position[0]][future_position[1]] != 'w' and\
+                self.__game_board[future_position[0]][future_position[1]] != 'e':
+            self.__players[player_id].update_position(future_position)
+            self.__game_board[current_position[0]][current_position[1]] = 'f'
+            self.__game_board[future_position[0]][future_position[1]] = player_id
 
     # Function to place a bomb.
     def __place_bomb(self, position):
         bomb_ = bomb.Bomb(self, position)
+        self.__game_board[position[0]][position[1]]  \
+            = str(self.__game_board[position[0]][position[1]]) + 'b'
 
     # Function to detonate a bomb.
     def detonate(self, position):
-        #if self.__game_board[position[0]][position[1]] ==
+        if self.__game_board[position[0]][position[1]] == 'e':
+            self.__game_board[position[0]][position[1]] = 'q'
+        elif self.__game_board[position[0]][position[1]] == 'f':
+            self.__game_board[position[0]][position[1]] = 'q'
+            if self.__game_board[position[0]][position[2]] == 'f':
+                self.__game_board[position[0]][position[2]] = 'q'
+            elif self.__game_board[position[0]][position[2]].isnumeric():
+                self.__players[int(self.__game_board[position[0]][position[2]])].die()
+
+
+
+
+
         print('test')
         print(self.__game_board[position[0]][position[1]])
 
@@ -136,7 +154,5 @@ class GameLogic:
 
 
 
-        self.__text_ui.update(self.__game_board)
-        self.__text_ui.draw()
 
         print('BOOM')
