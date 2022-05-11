@@ -21,8 +21,6 @@ class GameLogic:
         self.__live_player_input = player_input.PlayerInput(self, number_of_live_players)
         self.__ai_player_input = ai_input.AIInput(self, number_of_ai_players)
 
-        self.__bombs = []
-
         # threading.Thread(target=self.__text_ui).start()
 
     # Function to load a map.
@@ -132,11 +130,26 @@ class GameLogic:
                 != 'b':
             bomb_ = bomb.Bomb(self, position)
             self.__game_board[position[0]][position[1]] = str(self.__game_board[position[0]][position[1]]) + 'b'
-            self.__bombs.append(position)
-        print(self.__bombs)
 
     # Function to detonate a bomb.
     def detonate(self, position):
+        print('boom')
+        indexes = [[position[0],     position[1]],
+                   [position[0] - 1, position[1]],
+                   [position[0] - 2, position[1]],
+                   [position[0],     position[1] + 1],
+                   [position[0],     position[1] + 2],
+                   [position[0] + 1, position[1]],
+                   [position[0] + 2, position[1]],
+                   [position[0],     position[1] - 1],
+                   [position[0],     position[1] - 2]]
+        for index in indexes:
+            self.__game_board[index[0]][index[1]] = 'q'
+
+
+
+
+
         '''if self.__game_board[position[0]][position[1]] == 'e':
             self.__game_board[position[0]][position[1]] = 'q'
         elif self.__game_board[position[0]][position[1]] == 'f':
@@ -151,22 +164,4 @@ class GameLogic:
 
 
         print('test')
-        print(self.__game_board[position[0]][position[1]])
-
-
-
-
-        indexes = [[position[0],     position[1]],
-                   [position[0] - 1, position[1]],
-                   [position[0] - 2, position[1]],
-                   [position[0],     position[1] + 1],
-                   [position[0],     position[1] + 2],
-                   [position[0] + 1, position[1]],
-                   [position[0] + 2, position[1]],
-                   [position[0],     position[1] - 1],
-                   [position[0],     position[1] - 2]]'''
-
-
-
-
-        print('BOOM')
+        print(self.__game_board[position[0]][position[1]])'''
