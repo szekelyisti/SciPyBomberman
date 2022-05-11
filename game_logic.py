@@ -162,7 +162,7 @@ class GameLogic:
             self.__game_board[position[0]][position[1]] = 'q'
         else:
             self.__game_board[position[0]][position[1]] = str(self.__game_board[position[0]][position[1]])[0] + 'q'
-            # todo: call die
+            self.__players[int(str(self.__game_board[position[0]][position[1]])[0])].hp_loss()
 
         self.__detonate_check([position[0] - 1, position[1]],     [position[0] - 2, position[1]])
         self.__detonate_check([position[0],     position[1] + 1], [position[0],     position[1] + 2])
@@ -184,17 +184,20 @@ class GameLogic:
             elif str(self.__game_board[position_2[0]][position_2[1]]).isdigit():
                 self.__game_board[position_2[0]][position_2[1]] = str(
                     self.__game_board[position_2[0]][position_2[1]]) + 'q'
+                self.__players[int(str(self.__game_board[position_2[0]][position_2[1]])[0])].hp_loss()
             elif self.__game_board[position_2[0]][position_2[1]] == 'b':
                 self.__game_board[position_2[0]][position_2[1]] = 'bq'
             elif self.__game_board[position_2[0]][position_2[1]] == 'q':
                 self.__game_board[position_2[0]][position_2[1]] = 'q'
         elif str(self.__game_board[position_1[0]][position_1[1]]).isdigit():
             self.__game_board[position_1[0]][position_1[1]] = str(self.__game_board[position_1[0]][position_1[1]]) + 'q'
+            self.__players[int(str(self.__game_board[position_1[0]][position_1[1]])[0])].hp_loss()
             if self.__game_board[position_2[0]][position_2[1]] == 'f':
                 self.__game_board[position_2[0]][position_2[1]] = 'q'
             elif str(self.__game_board[position_2[0]][position_2[1]]).isdigit():
                 self.__game_board[position_2[0]][position_2[1]] = str(
                     self.__game_board[position_2[0]][position_2[1]]) + 'q'
+                self.__players[int(str(self.__game_board[position_2[0]][position_2[1]])[0])].hp_loss()
             elif self.__game_board[position_2[0]][position_2[1]] == 'b':
                 self.__game_board[position_2[0]][position_2[1]] = 'bq'
             elif self.__game_board[position_2[0]][position_2[1]] == 'q':
@@ -206,6 +209,7 @@ class GameLogic:
             elif str(self.__game_board[position_2[0]][position_2[1]]).isdigit():
                 self.__game_board[position_2[0]][position_2[1]] = str(
                     self.__game_board[position_2[0]][position_2[1]]) + 'q'
+                self.__players[int(str(self.__game_board[position_2[0]][position_2[1]])[0])].hp_loss()
             elif self.__game_board[position_2[0]][position_2[1]] == 'b':
                 self.__game_board[position_2[0]][position_2[1]] = 'bq'
             elif self.__game_board[position_2[0]][position_2[1]] == 'q':
@@ -217,6 +221,7 @@ class GameLogic:
             elif str(self.__game_board[position_2[0]][position_2[1]]).isdigit():
                 self.__game_board[position_2[0]][position_2[1]] = str(
                     self.__game_board[position_2[0]][position_2[1]]) + 'q'
+                self.__players[int(str(self.__game_board[position_2[0]][position_2[1]])[0])].hp_loss()
             elif self.__game_board[position_2[0]][position_2[1]] == 'b':
                 self.__game_board[position_2[0]][position_2[1]] = 'bq'
             elif self.__game_board[position_2[0]][position_2[1]] == 'q':
