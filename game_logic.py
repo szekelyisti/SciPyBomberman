@@ -21,7 +21,7 @@ class GameLogic:
         self.__live_player_input = player_input.PlayerInput(self, number_of_live_players)
         self.__ai_player_input = ai_input.AIInput(self, number_of_ai_players)
 
-        # threading.Thread(target=self.__text_ui).start()
+        threading.Thread(target=self.__text_ui).start()
 
     # Function to load a map.
     def __load_map(self, filename):
@@ -110,37 +110,43 @@ class GameLogic:
             future_position[1] += 1
 
         if str(self.__game_board[current_position[0]][current_position[1]]).isdigit():
-            self.__game_board[current_position[0]][current_position[1]] = 'f'
             if self.__game_board[future_position[0]][future_position[1]] == 'f':
                 self.__game_board[future_position[0]][future_position[1]] = player_id
+                self.__game_board[current_position[0]][current_position[1]] = 'f'
                 self.__players[player_id].update_position(future_position)
             elif self.__game_board[future_position[0]][future_position[1]] == 'b':
                 self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'b'
+                self.__game_board[current_position[0]][current_position[1]] = 'f'
                 self.__players[player_id].update_position(future_position)
             elif self.__game_board[future_position[0]][future_position[1]] == 'q':
                 self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'q'
+                self.__game_board[current_position[0]][current_position[1]] = 'f'
                 self.__players[player_id].update_position(future_position)
         elif str(self.__game_board[current_position[0]][current_position[1]])[0] == 'b':
-            self.__game_board[current_position[0]][current_position[1]] = 'b'
             if self.__game_board[future_position[0]][future_position[1]] == 'f':
                 self.__game_board[future_position[0]][future_position[1]] = player_id
+                self.__game_board[current_position[0]][current_position[1]] = 'b'
                 self.__players[player_id].update_position(future_position)
             elif self.__game_board[future_position[0]][future_position[1]] == 'b':
                 self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'b'
+                self.__game_board[current_position[0]][current_position[1]] = 'b'
                 self.__players[player_id].update_position(future_position)
             elif self.__game_board[future_position[0]][future_position[1]] == 'q':
                 self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'q'
+                self.__game_board[current_position[0]][current_position[1]] = 'b'
                 self.__players[player_id].update_position(future_position)
         elif str(self.__game_board[current_position[0]][current_position[1]])[0] == 'q':
-            self.__game_board[current_position[0]][current_position[1]] = 'q'
             if self.__game_board[future_position[0]][future_position[1]] == 'f':
                 self.__game_board[future_position[0]][future_position[1]] = player_id
+                self.__game_board[current_position[0]][current_position[1]] = 'q'
                 self.__players[player_id].update_position(future_position)
             elif self.__game_board[future_position[0]][future_position[1]] == 'b':
                 self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'b'
+                self.__game_board[current_position[0]][current_position[1]] = 'q'
                 self.__players[player_id].update_position(future_position)
             elif self.__game_board[future_position[0]][future_position[1]] == 'q':
                 self.__game_board[future_position[0]][future_position[1]] = str(player_id) + 'q'
+                self.__game_board[current_position[0]][current_position[1]] = 'q'
                 self.__players[player_id].update_position(future_position)
 
     # Function to place a bomb.
