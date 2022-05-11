@@ -117,9 +117,10 @@ class GameLogic:
 
     # Function to place a bomb.
     def __place_bomb(self, position):
-        bomb_ = bomb.Bomb(self, position)
-        self.__game_board[position[0]][position[1]]  \
-            = str(self.__game_board[position[0]][position[1]]) + 'b'
+        if str(self.__game_board[position[0]][position[1]])[-1]\
+                != 'b':
+            bomb_ = bomb.Bomb(self, position)
+            self.__game_board[position[0]][position[1]] = str(self.__game_board[position[0]][position[1]]) + 'b'
 
     # Function to detonate a bomb.
     def detonate(self, position):
