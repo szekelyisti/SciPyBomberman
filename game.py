@@ -29,9 +29,9 @@ class Game:
     col_num = 0
     # GameLogic
     game_logic = None
-    __previous_board = None
 
-    player_colors = ["#e6194b", "#f58231", "#ffe119", "#808000", "#3cb44b", "#42d4f4", "#4363d8", "#911eb4", "#f032e6", "#a9a9a9"]
+    player_colors = ["#e6194b", "#f58231", "#ffe119", "#808000", "#3cb44b", "#42d4f4", "#4363d8", "#911eb4", "#f032e6",
+                     "#a9a9a9"]
 
     def __init__(self):
 
@@ -44,11 +44,10 @@ class Game:
 
         self.menu_frame = tk.Frame(master=self.window, width=self.col_num * self.col_size + 10,
                                    height=self.row_num * self.row_size + 10)
-        self.board_frame = tk.Frame(master=self.window, width=self.col_num * self.col_size + 10,
-                                    height=self.row_num * self.row_size + 10)
+        self.board_canvas = tk.Canvas(self.window, width=self.col_num * self.col_size,
+                                      height=self.row_num * self.row_size)
         self.__refresher = threading.Thread(target=self.__refresh)
         self.build_menu()
-
 
         # self.__refresher.start()
 
@@ -60,10 +59,9 @@ class Game:
             time.sleep(0.1)
 
     def start(self):
-        self.game_logic = gl.GameLogic(int(self.real_player_entry.get()), int(self.ai_player_entry.get()), './maps/map1.txt')
-        self.__previous_board = self.game_logic.get_game_board()
+        self.game_logic = gl.GameLogic(int(self.real_player_entry.get()), int(self.ai_player_entry.get()),
+                                       './maps/map1.txt')
         self.__refresher.start()
-
 
     def build_menu(self):
 
@@ -95,12 +93,9 @@ class Game:
 
         self.row_num = len(self.game_logic.get_game_board())
         self.col_num = len(self.game_logic.get_game_board()[0])
-
-        self.board_frame = tk.Frame(master=self.window)
-        self.board_canvas = tk.Canvas(self.board_frame, width=self.col_num * self.col_size,
+        self.board_canvas = tk.Canvas(self.window, width=self.col_num * self.col_size,
                                       height=self.row_num * self.row_size)
 
-        self.board_canvas.pack()
         for i in range(self.col_num):
             for j in range(self.row_num):
                 x1 = i * self.col_size
@@ -117,20 +112,24 @@ class Game:
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
                     self.board_canvas.create_rectangle(x1 + 15, y1 + 15, x2 - 15, y2 - 15, fill="black",
                                                        outline="black")
-                elif self.game_logic.get_game_board()[j][i] == "q":
-                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
-                    self.board_canvas.create_rectangle(x1, y1 + 15, x2, y2 - 15, fill="white",
-                                                       outline="white")
+                elif "q" in str(self.game_logic.get_game_board()[j][i]):
+                    # self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
+                    self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="white", outline="white")
                 elif "b" in str(self.game_logic.get_game_board()[j][i]):
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
                     self.board_canvas.create_rectangle(x1 + 15, y1 + 3, x2 - 15, y2 - 27, fill="black", outline="black")
-                    self.board_canvas.create_rectangle(x1 + 15, y1 + 28, x2 - 15, y2 - 2, fill=self.player_colors[int(self.game_logic.get_game_board()[j][i][0])],
-                                                       outline=self.player_colors[int(self.game_logic.get_game_board()[j][i][0])])
+                    self.board_canvas.create_rectangle(x1 + 15, y1 + 28, x2 - 15, y2 - 2, fill=self.player_colors[
+                        int(self.game_logic.get_game_board()[j][i][0])],
+                                                       outline=self.player_colors[
+                                                           int(self.game_logic.get_game_board()[j][i][0])])
                 else:
                     self.board_canvas.create_rectangle(x1, y1, x2, y2, fill="grey", outline="#000000")
-                    self.board_canvas.create_rectangle(x1 + 15, y1 + 15, x2 - 15, y2 - 15, fill=self.player_colors[int(self.game_logic.get_game_board()[j][i])],
-                                                       outline=self.player_colors[int(self.game_logic.get_game_board()[j][i])])
+                    self.board_canvas.create_rectangle(x1 + 15, y1 + 15, x2 - 15, y2 - 15, fill=self.player_colors[
+                        int(self.game_logic.get_game_board()[j][i])],
+                                                       outline=self.player_colors[
+                                                           int(self.game_logic.get_game_board()[j][i])])
 
-        self.board_frame.grid(column=0, row=0)
+        self.board_canvas.grid(column=0, row=0)
+
 
 game = Game()
