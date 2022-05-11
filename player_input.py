@@ -9,6 +9,7 @@ class PlayerInput:
         self.__input_handler.start()
 
     # Function to handle keyboard inputs from a player.
+    #test
     def __handle_input(self, game_logic, number_of_live_players):
         while True:
             with keyboard.Events() as events:
