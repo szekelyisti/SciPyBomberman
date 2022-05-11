@@ -30,6 +30,6 @@ class Player:
         self.__alive = False
 
     def hp_loss(self):
-        self.__lives = self.__lives = 1
+        self.__lives -= 1
         if self.__lives == 0:
             self.kill()
