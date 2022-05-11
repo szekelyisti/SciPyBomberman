@@ -16,25 +16,27 @@ class PlayerInput:
                 event = events.get()
 
                 if number_of_live_players >= 1:
-                    if str(event) == 'Press(key=Key.up)':
-                        game_logic.handle_input([0, 'UP'])
-                    elif str(event) == 'Press(key=Key.down)':
-                        game_logic.handle_input([0, 'DOWN'])
-                    elif str(event) == 'Press(key=Key.left)':
-                        game_logic.handle_input([0, 'LEFT'])
-                    elif str(event) == 'Press(key=Key.right)':
-                        game_logic.handle_input([0, 'RIGHT'])
-                    elif str(event) == 'Press(key=Key.enter)':
-                        game_logic.handle_input([0, 'BOMB'])
+                    if game_logic.get_players()[0].is_alive():
+                        if str(event) == 'Press(key=Key.up)':
+                            game_logic.handle_input([0, 'UP'])
+                        elif str(event) == 'Press(key=Key.down)':
+                            game_logic.handle_input([0, 'DOWN'])
+                        elif str(event) == 'Press(key=Key.left)':
+                            game_logic.handle_input([0, 'LEFT'])
+                        elif str(event) == 'Press(key=Key.right)':
+                            game_logic.handle_input([0, 'RIGHT'])
+                        elif str(event) == 'Press(key=Key.enter)':
+                            game_logic.handle_input([0, 'BOMB'])
 
                 if number_of_live_players >= 2:
-                    if str(event) == "Press(key='w')":
-                        game_logic.handle_input([1, 'UP'])
-                    elif str(event) == "Press(key='s')":
-                        game_logic.handle_input([1, 'DOWN'])
-                    elif str(event) == "Press(key='a')":
-                        game_logic.handle_input([1, 'LEFT'])
-                    elif str(event) == "Press(key='d')":
-                        game_logic.handle_input([1, 'RIGHT'])
-                    elif str(event) == 'Press(key=Key.space)':
-                        game_logic.handle_input([1, 'BOMB'])
+                    if game_logic.get_players()[1].is_alive():
+                        if str(event) == "Press(key='w')":
+                            game_logic.handle_input([1, 'UP'])
+                        elif str(event) == "Press(key='s')":
+                            game_logic.handle_input([1, 'DOWN'])
+                        elif str(event) == "Press(key='a')":
+                            game_logic.handle_input([1, 'LEFT'])
+                        elif str(event) == "Press(key='d')":
+                            game_logic.handle_input([1, 'RIGHT'])
+                        elif str(event) == 'Press(key=Key.space)':
+                            game_logic.handle_input([1, 'BOMB'])

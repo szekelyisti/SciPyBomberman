@@ -57,6 +57,12 @@ class Game:
         while True:
             self.build_board()
             time.sleep(0.1)
+            alive_players = []
+            for player in self.game_logic.get_players():
+                if player.is_alive():
+                    alive_players.append(player)
+            # if len(alive_players) == 1:
+
 
     def start(self):
         self.game_logic = gl.GameLogic(int(self.real_player_entry.get()), int(self.ai_player_entry.get()),

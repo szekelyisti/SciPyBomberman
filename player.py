@@ -7,12 +7,7 @@ class Player:
         self.__position = position
         self.__lives = 3
         self.__real = real
-
-    # Function to decrement lives. Returns 'True' if no lives is remaining.
-    def die(self):
-        self.__lives -= 1
-        if self.__lives == 0:
-            return True
+        self.__alive = True
 
     # Function to get the position of the player.
     def get_position(self):
@@ -27,3 +22,14 @@ class Player:
 
     def get_previous_step(self):
         return self.__previous_step
+
+    def is_alive(self):
+        return self.__alive
+
+    def kill(self):
+        self.__alive = False
+
+    def hp_loss(self):
+        self.__lives = self.__lives = 1
+        if self.__lives == 0:
+            self.kill()
